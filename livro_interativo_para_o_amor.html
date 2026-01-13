@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Será o Início ou o Fim?</title>
+
+  <!-- Fonte estilo livro antigo -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #2b1d0e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .book {
+      background: #f5e6c8;
+      width: 90%;
+      max-width: 420px;
+      min-height: 520px;
+      border-radius: 12px;
+      padding: 30px 25px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+      position: relative;
+    }
+
+    .page {
+      display: none;
+      animation: fade 0.6s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.6rem;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #5a3a1a;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #5a3a1a;
+      text-align: center;
+    }
+
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #3b2a18;
+      margin-bottom: 15px;
+      text-align: justify;
+    }
+
+    .next {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: #5a3a1a;
+      cursor: pointer;
+      position: absolute;
+      bottom: 20px;
+      right: 25px;
+      font-style: italic;
+    }
+
+    .next:hover {
+      text-decoration: underline;
+    }
+
+    .hidden {
+      color: transparent;
+      background: #d8c7a1;
+      border-radius: 4px;
+      padding: 2px 4px;
+      cursor: pointer;
+    }
+
+    .hidden.revealed {
+      color: #3b2a18;
+    }
+
+    .music {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: #5a3a1a;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: #7a6245;
+      margin-top: 30px;
+    }
+
+    @media (min-width: 768px) {
+      .book {
+        max-width: 520px;
+        min-height: 560px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="audio" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="book">
+    <div class="music" onclick="toggleMusic()">♫ música</div>
+
+    <!-- CAPA -->
+    <div class="page active">
+      <h1>Será o Início ou o Fim?</h1>
+      <p>
+        <span data-edit>
+          Escreva aqui a história de como tudo começou.
+        </span>
+        <span class="hidden" onclick="reveal(this)">
+          Mensagem secreta (clique para revelar)
+        </span>
+      </p>
+      <button class="next" onclick="nextPage()">virar a página →</button>
+    </div>
+
+    <!-- PÁGINA 2 -->
+    <div class="page">
+      <h2 data-edit>Título da Página 2</h2>
+      <p>
+        <span data-edit>
+          Escreva aqui a história de como tudo começou.
+        </span>
+        <span class="hidden" onclick="reveal(this)">
+          Mensagem secreta (clique para revelar)
+        </span>
+      </p>
+      <button class="next" onclick="nextPage()">virar a página →</button>
+    </div>
+
+    <!-- PÁGINA 3 -->
+    <div class="page">
+      <h2 data-edit>Título da Página 3</h2>
+      <p>
+        <span data-edit>
+          Escreva aqui a história de como tudo começou.
+        </span>
+        <span class="hidden" onclick="reveal(this)">
+          Mensagem secreta (clique para revelar)
+        </span>
+      </p>
+      <button class="next" onclick="nextPage()">virar a página →</button>
+    </div>
+
+    <!-- FINAL -->
+    <div class="page">
+      <h2 data-edit>Última Página</h2>
+      <p>
+        Obrigada por existir.
+        Obrigada por me escolher.
+      </p>
+      <p>
+        Este livro termina aqui,
+        mas nós não.
+      </p>
+      <footer data-edit>Assinatura final (seu nome, data, coração)</footer>
+    </div>
+  </div>
+
+  <script>
+    let currentPage = 0;
+    const pages = document.querySelectorAll('.page');
+    const audio = document.getElementById('audio');
+    let playing = false;
+
+    function nextPage() {
+      pages[currentPage].classList.remove('active');
+      currentPage = (currentPage + 1) % pages.length;
+      pages[currentPage].classList.add('active');
+    }
+
+    function reveal(el) {
+      el.classList.add('revealed');
+    }
+
+    function toggleMusic() {
+      if (!playing) {
+        audio.play();
+        playing = true;
+      } else {
+        audio.pause();
+        playing = false;
+      }
+    }
+  </script>
+
+</body>
+</html>
